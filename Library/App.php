@@ -1,16 +1,16 @@
 <?php
 namespace MyMVC\Library;
 
+use MyMVC\Library\Routing\IRouter;
+
 class App
 {
 
     private static $instance = null;
-
-    private static $uri;
     
     /**
      * 
-     * @var \MyMVC\Library\Router
+     * @var \MyMVC\Library\Routing\IRouter
      */
     private static $router;
 
@@ -30,29 +30,15 @@ class App
         return self::$instance;
     }
 
-    public function start()
+    public function start(IRouter $router)
     {
-        self::setUri();
-        self::$router = new Router(self::$uri);
-    }
-
-    private static function setUri()
-    {
-        $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $baseDir = dirname(dirname($_SERVER['PHP_SELF']));
-        
-        $uri = str_replace($baseDir, '', $request);
-        self::$uri = trim($uri, '/');
-    }
-
-    public function getUri()
-    {
-        return self::$uri;
+        self::$router = $router;
+        var_dump(self::$router);
     }
     
     /**
      * 
-     * @return \MyMVC\Library\Router
+     * @return \MyMVC\Library\Routing\IRouter
      */
     public static function getRouter()
     {

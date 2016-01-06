@@ -9,9 +9,7 @@ require_once '..' . DS . 'Library' . DS . 'Autoloader.php';
 
 require_once '..' . DS . 'Config' . DS . 'config.php';
 
+$router = new \MyMVC\Library\Routing\DefaultRouter();
+
 $app = \MyMVC\Library\App::getInstance();
-$app->start();
-
-$router = new \MyMVC\Library\Router($app->getUri());
-
-var_dump($router);
+$app->start($router);

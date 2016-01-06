@@ -6,14 +6,14 @@ Config::set('siteName', 'MyMVC');
 
 Config::set('languages', ['bg', 'en']);
 
+Config::set('defaultLanguage', 'bg');
+
 Config::set('routes', [
-	'default' => '',
+	'default' => null,
 	'admin' => 'admin',
 ]);
 
 Config::set('defaultRoute', 'default');
-
-Config::set('defaultLanguage', 'bg');
 
 Config::set('defaultController', 'Home');
 
