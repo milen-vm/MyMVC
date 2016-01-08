@@ -14,7 +14,7 @@ class DefaultRouter implements IRouter
     
     private $action;
     
-    private $params;
+    private $params = [];
     
     private $route;
     
@@ -28,13 +28,12 @@ class DefaultRouter implements IRouter
         $this->setRequestMethod();
 
         // Set defaults from config file
-        $this->controller = Config::get('defaultController');
-        $this->action = Config::get('defaultAction');       
-        $this->route = Config::get('defaultRoute');
-
+        $this->setController(Config::get('defaultController'));
+        $this->setAction(Config::get('defaultAction'));
+        $this->setRoute(Config::get('defaultRoute'));
         $routes = Config::get('routes');
-        $this->area = isset($routes[$this->route]) ? $routes[$this->route] : null;
-        $this->language = Config::get('defaultLanguage');
+        $this->setArea($routes);
+        $this->setLanguage(Config::get('defaultLanguage'));
 
         $this->parseUri($routes);
     }
@@ -44,24 +43,28 @@ class DefaultRouter implements IRouter
         $pathParts = explode('/', $this->uri);
     
         if (current($pathParts)) {
-    
+            $pathParts = array_filter($pathParts, function ($val)
+            {
+                return $val != '';
+            });
+
             // Get language at first element
-            if (in_array(current($pathParts), Config::get('languages'))) {
-                $this->language = array_shift($pathParts);
+            if (in_array(strtolower(current($pathParts)), Config::get('languages'))) {
+                $this->setLanguage(array_shift($pathParts));
             }
     
             // Get route at next element
-            if (in_array(current($pathParts), array_keys($routes))) {
-                $this->route = array_shift($pathParts);
-                $this->area = isset($routes[$this->route]) ? $routes[$this->route] : null;
+            if (in_array(strtolower(current($pathParts)), array_keys($routes))) {
+                $this->setRoute(array_shift($pathParts));
+                $this->setArea($routes);
             }
     
             // Get controller and action - next element of array
             if (count($pathParts)) {
-                $this->controller = array_shift($pathParts);
+                $this->setController(array_shift($pathParts));
                  
                 if (count($pathParts)) {
-                    $this->action = array_shift($pathParts);
+                    $this->setAction(array_shift($pathParts));
                 }
             }
     
@@ -98,10 +101,20 @@ class DefaultRouter implements IRouter
     {
         return $this->controller;
     }
+    
+    private function setController($controller)
+    {
+        $this->controller = ucfirst(strtolower($controller));
+    }
 
     public function getAction()
     {
         return $this->action;
+    }
+    
+    private function setAction($action)
+    {
+        $this->action = strtolower($action);
     }
     
     public function getParams()
@@ -114,13 +127,28 @@ class DefaultRouter implements IRouter
         return $this->route;
     }
     
+    private function setRoute($route)
+    {
+        $this->route = strtolower($route);
+    }
+    
     public function getArea()
     {
         return $this->area;
     }
     
+    private function setArea($routes)
+    {
+        $this->area = isset($routes[$this->route]) ? strtolower($routes[$this->route]) : '';
+    }
+    
     public function getLanguage()
     {
         return $this->language;
+    }
+    
+    private function setLanguage($lang)
+    {
+        $this->language = strtolower($lang);
     }
 }

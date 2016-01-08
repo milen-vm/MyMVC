@@ -1,10 +1,9 @@
 <?php
-
 namespace MyMVC\Library;
 
 class Autoloader
 {
-    
+
     public static function init()
     {
         spl_autoload_register(function ($class)

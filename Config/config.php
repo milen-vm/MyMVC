@@ -9,7 +9,7 @@ Config::set('languages', ['bg', 'en']);
 Config::set('defaultLanguage', 'bg');
 
 Config::set('routes', [
-	'default' => null,
+	'default' => '',
 	'admin' => 'admin',
 ]);
 
@@ -17,4 +17,4 @@ Config::set('defaultRoute', 'default');
 
 Config::set('defaultController', 'Home');
 
-Config::set('defaultAction', 'Index');
+Config::set('defaultAction', 'index');

@@ -1,7 +1,8 @@
 <?php
 
 define('DS', DIRECTORY_SEPARATOR);
-define('ROOT_DIR', dirname(dirname(__FILE__)) . DS);
+define('ROOT_DIR', dirname(dirname(__FILE__)).DS);
+define('VIEWS_PATH', ROOT_DIR.'Application'.DS.'Views');
 
 require_once '..' . DS . 'Library' . DS . 'Autoloader.php';
 
