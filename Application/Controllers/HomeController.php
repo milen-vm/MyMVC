@@ -2,17 +2,19 @@
 namespace MyMVC\Application\Controllers;
 
 use MyMVC\Library\MVC\BaseController;
+use MyMVC\Library\MVC\View;
+use MyMVC\Application\ViewModels\User;
 
 class HomeController extends BaseController
 {
-    
-    public function __construct($data = [])
+
+    public function __construct()
     {
-        parent::__construct($data);
+        parent::__construct();
     }
-    
+
     public function index()
     {
-        $this->data['testContent'] = 'Echo from Home controller, index action';
+        return new View(new User('Милен', 'Милев', 35), 'Home/Index');
     }
 }

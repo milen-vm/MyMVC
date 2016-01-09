@@ -5,51 +5,53 @@ use MyMVC\Library\App;
 
 class View
 {
-    
+
+    const ARGS_COUNT_MODEL_AND_VIEW = 2;
+
     const VIEW_EXTENSION = '.php';
-    
-    private $data;
-    
-    private $path;
-    
-    public function __construct($data = [], $path = null)
+
+    private $viewPath;
+
+    public function __construct($model = null, $path = null)
     {
-        $this->data = $data;
         $this->setPath($path);
+        $this->render($model);
     }
-    
+
     private function setPath($path)
     {
         if ($path == null) {
-        	$this->path = self::getDefaultViewPath();
-        } elseif (!file_exists($path)) {
-        	throw new \Exception("Templeate file is not found in the path {$path}");
+        	$path = self::getDefaultViewPath();
         } else {
-            $this->path = $path;
+            $path = strtolower($path);
+            $path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
+            $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+            $path = trim($path, DIRECTORY_SEPARATOR);
+            $path = ROOT_VIEWS_DIR.$path.self::VIEW_EXTENSION;
+
+            if (!file_exists($path)) {
+            	throw new \Exception("Templeate file is not found in the path {$path}");
+            }
         }
+
+        $this->viewPath = $path;
     }
-    
+
     private function getDefaultViewPath()
     {
         $router = App::getRouter();
         if (!$router) {
         	throw new \Exception('Router not found. Can not get controller name.');
         }
-        
-        $controllerDir = ucfirst(strtolower($router->getController()));
+
+        $controllerDir = strtolower($router->getController());
         $templeatName = $router->getArea().$router->getAction().self::VIEW_EXTENSION;
 
-        return VIEWS_PATH.DS.$controllerDir.DS.$templeatName;
+        return ROOT_VIEWS_DIR.$controllerDir.DIRECTORY_SEPARATOR.$templeatName;
     }
-    
-    public function render()
+
+    private function render($model)
     {
-        $data = $this->data;
-        
-        ob_start();
-        require $this->path;
-        $content = ob_get_clean();
-        
-        return $content;
+        require $this->viewPath;
     }
 }

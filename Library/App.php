@@ -41,11 +41,11 @@ class App
         var_dump(self::$router);
         
         $controllerClass = self::CONTROLLERS_NAMESPACE
-            .ucfirst(strtolower(self::$router->getController()))
+            .self::$router->getController()
             .self::CONTROLLERS_SUFFIX;
         
-        $controllerMethod = strtolower(self::getRouter()->getArea()
-            .self::$router->getAction());
+        $controllerMethod = self::getRouter()->getArea()
+            .self::$router->getAction();
 
         /**
          * 
@@ -54,18 +54,11 @@ class App
         $controllerObject = new $controllerClass();
         if (method_exists($controllerObject, $controllerMethod)) {
             // Controller's action may return view path
-        	$viewPath = $controllerObject->{$controllerMethod}();
-        	$viewObject = new View($controllerObject->getData(), $viewPath);
-        	$content = $viewObject->render();
+        	$controllerObject->{$controllerMethod}();
         } else {
             throw new \Exception('Method '.$controllerMethod.' in class '
                 .$controllerClass.' does not exist');
         }
-        
-        $layout = self::$router->getRoute();
-        $layoutPath = VIEWS_PATH.DS.$layout.$viewObject::VIEW_EXTENSION;
-        $layoutViewObject = new View(compact('content'), $layoutPath);
-        echo $layoutViewObject->render();
     }
     
     /**
