@@ -6,13 +6,13 @@ use MyMVC\Library\MVC\View;
 
 class App
 {
-    
+
     const CONTROLLERS_NAMESPACE = '\\MyMVC\\Application\\Controllers\\';
-    
+
     const CONTROLLERS_SUFFIX = 'Controller';
-    
+
     private static $instance = null;
-    
+
     /**
      * @todo replace DefaultRouter with IRouter
      * @var \MyMVC\Library\Routing\DefaultRouter
@@ -31,36 +31,40 @@ class App
         if (self::$instance == null) {
             self::$instance = new self();
         }
-        
+
         return self::$instance;
     }
 
     public function start(IRouter $router)
     {
         self::$router = $router;
-        var_dump(self::$router);
-        
+
         $controllerClass = self::CONTROLLERS_NAMESPACE
             .self::$router->getController()
             .self::CONTROLLERS_SUFFIX;
-        
+
         $controllerMethod = self::getRouter()->getArea()
             .self::$router->getAction();
 
         /**
-         * 
-         *@var \MyMVC\Library\MVC\BaseController 
+         *
+         *@var \MyMVC\Library\MVC\BaseController $controllerObject
          */
         $controllerObject = new $controllerClass();
         if (method_exists($controllerObject, $controllerMethod)) {
-            // Controller's action may return view path
-        	$controllerObject->{$controllerMethod}();
+        	call_user_func_array(
+        	   [
+	               $controllerObject,
+	               $controllerMethod
+        	   ],
+    	       self::$router->getParams()
+            );
         } else {
             throw new \Exception('Method '.$controllerMethod.' in class '
                 .$controllerClass.' does not exist');
         }
     }
-    
+
     /**
      * @todo replace DefaultRouter with IRouter
      * @return \MyMVC\Library\Routing\DefaultRouter

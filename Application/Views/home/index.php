@@ -7,5 +7,4 @@ echo $model->getFamily();
 echo '<br/>';
 echo $model->getAge();
 echo '<br/>';
-var_dump($this);
 ?>

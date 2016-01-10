@@ -6,16 +6,43 @@ use MyMVC\Library\App;
 class View
 {
 
-    const ARGS_COUNT_MODEL_AND_VIEW = 2;
+    const LAYOUTS_DIR_NAME = 'layouts';
+
+    const LAYOUT_HEADER_FILE_NAME = 'header';
+
+    const LAYOUT_FOOTER_FILE_NAME = 'footer';
 
     const VIEW_EXTENSION = '.php';
 
+    /**
+     * @todo replace DefaultRouter with IRouter
+     * @var \MyMVC\Library\Routing\DefaultRouter
+     */
+    private static $router;
+
     private $viewPath;
 
-    public function __construct($model = null, $path = null)
+    /**
+     *
+     * @param \MyMVC\Application\ViewModels $model
+     * @param string $path
+     * @param boolean $includeLayout
+     */
+    public function __construct($model = null, $path = null, $includeLayout = true)
     {
+        $this->setRouter();
         $this->setPath($path);
-        $this->render($model);
+        $this->render($model, $includeLayout);
+    }
+
+    private function setRouter()
+    {
+        $router = App::getRouter();
+        if (!$router) {
+            throw new \Exception('Router not found. Can not render view.');
+        }
+
+        self::$router = $router;
     }
 
     private function setPath($path)
@@ -39,19 +66,38 @@ class View
 
     private function getDefaultViewPath()
     {
-        $router = App::getRouter();
-        if (!$router) {
-        	throw new \Exception('Router not found. Can not get controller name.');
-        }
-
-        $controllerDir = strtolower($router->getController());
-        $templeatName = $router->getArea().$router->getAction().self::VIEW_EXTENSION;
+        $controllerDir = strtolower(self::$router->getController());
+        $templeatName = $router->getArea().self::$router->getAction().self::VIEW_EXTENSION;
 
         return ROOT_VIEWS_DIR.$controllerDir.DIRECTORY_SEPARATOR.$templeatName;
     }
 
-    private function render($model)
+    private function render($model, $includeLayout)
     {
+        if ($includeLayout) {
+        	$headerPath = ROOT_VIEWS_DIR
+        	   .self::LAYOUTS_DIR_NAME
+        	   .DIRECTORY_SEPARATOR
+        	   .self::$router->getRoute()
+        	   .DIRECTORY_SEPARATOR
+        	   .self::LAYOUT_HEADER_FILE_NAME
+        	   .self::VIEW_EXTENSION;
+
+        	require $headerPath;
+        }
+
         require $this->viewPath;
+
+        if ($includeLayout) {
+            $footerPath = ROOT_VIEWS_DIR
+            .self::LAYOUTS_DIR_NAME
+            .DIRECTORY_SEPARATOR
+            .self::$router->getRoute()
+            .DIRECTORY_SEPARATOR
+            .self::LAYOUT_FOOTER_FILE_NAME
+    	    .self::VIEW_EXTENSION;
+
+            require $footerPath;
+        }
     }
 }
