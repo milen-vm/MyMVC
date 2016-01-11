@@ -66,8 +66,9 @@ class View
 
     private function getDefaultViewPath()
     {
-        $controllerDir = strtolower(self::$router->getController());
-        $templeatName = $router->getArea().self::$router->getAction().self::VIEW_EXTENSION;
+        $controllerDir = self::$router->getController();
+        $templeatName = self::$router->getArea()
+            .self::$router->getAction().self::VIEW_EXTENSION;
 
         return ROOT_VIEWS_DIR.$controllerDir.DIRECTORY_SEPARATOR.$templeatName;
     }
@@ -75,11 +76,13 @@ class View
     private function render($model, $includeLayout)
     {
         if ($includeLayout) {
-        	$headerPath = ROOT_VIEWS_DIR
+        $layoutDir = ROOT_VIEWS_DIR
         	   .self::LAYOUTS_DIR_NAME
         	   .DIRECTORY_SEPARATOR
         	   .self::$router->getRoute()
-        	   .DIRECTORY_SEPARATOR
+        	   .DIRECTORY_SEPARATOR;
+
+        	$headerPath = $layoutDir
         	   .self::LAYOUT_HEADER_FILE_NAME
         	   .self::VIEW_EXTENSION;
 
@@ -89,11 +92,7 @@ class View
         require $this->viewPath;
 
         if ($includeLayout) {
-            $footerPath = ROOT_VIEWS_DIR
-            .self::LAYOUTS_DIR_NAME
-            .DIRECTORY_SEPARATOR
-            .self::$router->getRoute()
-            .DIRECTORY_SEPARATOR
+            $footerPath = $layoutDir
             .self::LAYOUT_FOOTER_FILE_NAME
     	    .self::VIEW_EXTENSION;
 

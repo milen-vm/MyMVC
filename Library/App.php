@@ -40,7 +40,7 @@ class App
         self::$router = $router;
 
         $controllerClass = self::CONTROLLERS_NAMESPACE
-            .self::$router->getController()
+            .ucfirst(self::$router->getController())
             .self::CONTROLLERS_SUFFIX;
 
         $controllerMethod = self::getRouter()->getArea()
@@ -52,7 +52,8 @@ class App
          */
         $controllerObject = new $controllerClass();
         if (method_exists($controllerObject, $controllerMethod)) {
-        	call_user_func_array(
+        	call_user_func_array
+        	(
         	   [
 	               $controllerObject,
 	               $controllerMethod

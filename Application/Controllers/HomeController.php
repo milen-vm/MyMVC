@@ -15,6 +15,6 @@ class HomeController extends BaseController
 
     public function index()
     {
-        return new View(new User('Милен', 'Милев', 35), 'Home/Index');
+        return new View(new User('Милен', 'Милев', 35));
     }
 }
