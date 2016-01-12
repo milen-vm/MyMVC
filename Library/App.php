@@ -3,6 +3,9 @@ namespace MyMVC\Library;
 
 use MyMVC\Library\Routing\IRouter;
 use MyMVC\Library\MVC\View;
+use MyMVC\Library\Config;
+use MyMVC\Library\Core\Database;
+use MyMVC\Library\Utility\Storage;
 
 class App
 {
@@ -43,8 +46,11 @@ class App
             .ucfirst(self::$router->getController())
             .self::CONTROLLERS_SUFFIX;
 
-        $controllerMethod = self::getRouter()->getArea()
+        $controllerMethod = self::$router->getArea()
             .self::$router->getAction();
+
+        $this->setDatabaseInstance();
+        $this->storeLanguage(self::$router->getLanguage());
 
         /**
          *
@@ -52,8 +58,7 @@ class App
          */
         $controllerObject = new $controllerClass();
         if (method_exists($controllerObject, $controllerMethod)) {
-        	call_user_func_array
-        	(
+        	call_user_func_array(
         	   [
 	               $controllerObject,
 	               $controllerMethod
@@ -73,5 +78,24 @@ class App
     public static function getRouter()
     {
         return self::$router;
+    }
+
+    private function setDatabaseInstance()
+    {
+        Database::setInstance(
+            Config::get('dbInstance'),
+            Config::get('dbDrive'),
+            Config::get('dbUser'),
+            Config::get('dbPass'),
+            Config::get('dbName'),
+            Config::get('dbHost')
+        );
+    }
+
+    private function storeLanguage($lang)
+    {
+        if (Storage::get('lang') == null) {
+        	Storage::set('lang', $lang);
+        } elseif ()
     }
 }

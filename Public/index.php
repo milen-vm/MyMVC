@@ -3,6 +3,9 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', dirname(dirname(__FILE__)).DS);
 define('ROOT_VIEWS_DIR', ROOT_DIR.'Application'.DS.'Views'.DS);
+define('LINK_PREFIX', trim(
+    str_replace($_SERVER['DOCUMENT_ROOT'], '', ROOT_DIR), DS)
+);
 
 require_once '..' . DS . 'Library' . DS . 'Autoloader.php';
 

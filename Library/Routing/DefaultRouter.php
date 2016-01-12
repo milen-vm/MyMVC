@@ -2,6 +2,7 @@
 namespace MyMVC\Library\Routing;
 
 use MyMVC\Library\Config;
+use MyMVC\Library\Utility\Storage;
 
 class DefaultRouter implements IRouter
 {

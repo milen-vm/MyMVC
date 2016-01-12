@@ -18,3 +18,16 @@ Config::set('defaultRoute', 'default');
 Config::set('defaultController', 'Home');
 
 Config::set('defaultAction', 'index');
+
+// Database setings
+Config::set('dbDrive', 'mysql');
+
+Config::set('dbHost', 'localhost');
+
+Config::set('dbUser', 'root');
+
+Config::set('dbPass', '');
+
+Config::set('dbName', 'mymvc');
+
+Config::set('dbInstance', 'app');

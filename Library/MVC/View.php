@@ -2,6 +2,8 @@
 namespace MyMVC\Library\MVC;
 
 use MyMVC\Library\App;
+use MyMVC\Library\Utility\Storage;
+use MyMVC\Library\Config;
 
 class View
 {
@@ -98,5 +100,38 @@ class View
 
             require $footerPath;
         }
+    }
+
+    public static function url($lang = null, $route = null,
+        $controler = null, $action = null, $params = [])
+    {
+        $url = '/'.LINK_PREFIX;
+
+        if ($lang == null) {
+            $storedLang = Storage::get('lang');
+        	if ($storedLang != null && $storedLang != Config::get('defaultLanguage')) {
+        		$url .= "/{$storedLang}";
+        	};
+        } else {
+            $url .= "/{$lang}";
+        }
+
+        if ($route !== null && $lang !== Config::get('defaultRoute')) {
+            $url .= "/{$route}";
+        }
+
+        if ($controler !== null) {
+        	$url .= "/{$controler}";
+        }
+
+        if ($action !== null) {
+            $url .= "/{$action}";
+
+            foreach ($params as $param) {
+                $url .= "/{$param}";
+            }
+        }
+
+        return $url;
     }
 }
