@@ -111,7 +111,7 @@ class View
             $storedLang = Storage::get('lang');
         	if ($storedLang != null && $storedLang != Config::get('defaultLanguage')) {
         		$url .= "/{$storedLang}";
-        	};
+        	}
         } else {
             $url .= "/{$lang}";
         }

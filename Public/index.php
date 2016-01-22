@@ -13,6 +13,8 @@ require_once '..' . DS . 'Library' . DS . 'Autoloader.php';
 
 require_once '..' . DS . 'Config' . DS . 'config.php';
 
+\MyMVC\Library\Utility\Session::start();
+
 $router = new \MyMVC\Library\Routing\DefaultRouter();
 
 $app = \MyMVC\Library\App::getInstance();

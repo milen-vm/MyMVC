@@ -15,6 +15,8 @@ class HomeController extends BaseController
 
     public function index()
     {
+        $ip = '46.233.7.17'; //$_SERVER['REMOTE_ADDR'];
+        $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
 
         return new View(new User('Милен', 'Милев', 35));
     }

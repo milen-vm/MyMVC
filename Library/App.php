@@ -50,7 +50,6 @@ class App
             .self::$router->getAction();
 
         $this->setDatabaseInstance();
-        $this->storeLanguage(self::$router->getLanguage());
 
         /**
          *
@@ -92,10 +91,16 @@ class App
         );
     }
 
+    /**
+     * @todo not finshed
+     * @param string $lang
+     */
     private function storeLanguage($lang)
     {
         if (Storage::get('lang') == null) {
         	Storage::set('lang', $lang);
-        } elseif ()
+        } elseif (true) {
+
+        }
     }
 }
