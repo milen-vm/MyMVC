@@ -46,8 +46,7 @@ class App
             .ucfirst(self::$router->getController())
             .self::CONTROLLERS_SUFFIX;
 
-        $controllerMethod = self::$router->getArea()
-            .self::$router->getAction();
+        $controllerMethod = self::$router->getAction();
 
         $this->setDatabaseInstance();
 

@@ -3,7 +3,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', dirname(dirname(__FILE__)).DS);
 define('ROOT_VIEWS_DIR', ROOT_DIR.'Application'.DS.'Views'.DS);
-define('LINK_PREFIX', trim(
+define('LINK_PREFIX', rtrim(
     str_replace($_SERVER['DOCUMENT_ROOT'], '', ROOT_DIR), DS)
 );
 

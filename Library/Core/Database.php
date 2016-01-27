@@ -52,6 +52,12 @@ class Database
         self::$inst[$instanceName] = $pdo;
     }
 
+    /**
+     *
+     * @param string $statement
+     * @param array $driverOptions
+     * @return \MyMVC\Library\Core\Statement
+     */
     public function prepare($statement, array $driverOptions = [])
     {
         $pdoStatement = $this->db->prepare($statement, $driverOptions);

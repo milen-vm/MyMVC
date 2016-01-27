@@ -7,15 +7,10 @@ use MyMVC\Library\Config;
 abstract class BaseModel
 {
 
-    private $db;
+    protected $db;
 
     public function __construct()
     {
         $this->db = Database::getInstance(Config::get('dbInstance'));
-    }
-
-    protected function getDb()
-    {
-        return $this->db;
     }
 }

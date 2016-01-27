@@ -6,7 +6,7 @@ class MySQLDriver extends BaseDriver
 
     public function getDSN()
     {
-        $dsn = $dns = 'mysql:host='.$this->host.';dbname='.$this->dbName;
+        $dsn = 'mysql:host='.$this->host.';dbname='.$this->dbName.';charset=utf8';
 
         return $dsn;
     }

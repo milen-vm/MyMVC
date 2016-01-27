@@ -2,17 +2,28 @@
 namespace MyMVC\Library\MVC;
 
 use MyMVC\Library\App;
+use MyMVC\Library\Utility\Hellper;
 
 abstract class BaseController
 {
 
-    protected $model;
+    protected $method;
 
     protected function __construct()
-    {}
-
-    public function getModel()
     {
-        return $this->model;
+    	$this->method = App::getRouter()->getRequestMethod();
     }
+
+    protected function redirect($route = null,
+        $controler = null, $action = null, $params = [])
+    {
+        $url = Hellper::buildUrl(null, $route,
+            $controler, $action, $params);
+
+        header("Location: {$url}");
+        exit();
+    }
+
+    public function index()
+    {}
 }

@@ -4,6 +4,7 @@ namespace MyMVC\Library\MVC;
 use MyMVC\Library\App;
 use MyMVC\Library\Utility\Storage;
 use MyMVC\Library\Config;
+use MyMVC\Library\Utility\Hellper;
 
 class View
 {
@@ -69,8 +70,7 @@ class View
     private function getDefaultViewPath()
     {
         $controllerDir = self::$router->getController();
-        $templeatName = self::$router->getArea()
-            .self::$router->getAction().self::VIEW_EXTENSION;
+        $templeatName = self::$router->getAction().self::VIEW_EXTENSION;
 
         return ROOT_VIEWS_DIR.$controllerDir.DIRECTORY_SEPARATOR.$templeatName;
     }
@@ -102,36 +102,18 @@ class View
         }
     }
 
-    public static function url($lang = null, $route = null,
+    public static function url($route = null,
         $controler = null, $action = null, $params = [])
     {
-        $url = '/'.LINK_PREFIX;
+        echo Hellper::buildUrl(null, $route,
+            $controler, $action, $params);
+    }
 
-        if ($lang == null) {
-            $storedLang = Storage::get('lang');
-        	if ($storedLang != null && $storedLang != Config::get('defaultLanguage')) {
-        		$url .= "/{$storedLang}";
-        	}
-        } else {
-            $url .= "/{$lang}";
-        }
+    public static function isActiv($controllerName, $actionName)
+    {
+        $isActive = (strtolower($controllerName) == self::$router->getController()) &&
+            (strtolower($actionName) == self::$router->getAction());
 
-        if ($route !== null && $lang !== Config::get('defaultRoute')) {
-            $url .= "/{$route}";
-        }
-
-        if ($controler !== null) {
-        	$url .= "/{$controler}";
-        }
-
-        if ($action !== null) {
-            $url .= "/{$action}";
-
-            foreach ($params as $param) {
-                $url .= "/{$param}";
-            }
-        }
-
-        return $url;
+        echo $isActive ? 'active' : '';
     }
 }

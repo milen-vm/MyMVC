@@ -4,6 +4,8 @@ use MyMVC\Library\Config;
 
 Config::set('siteName', 'MyMVC');
 
+Config::set('sessionId', '_mymvc_sess_identi_');
+
 Config::set('languages', ['bg', 'en']);
 
 Config::set('defaultLanguage', 'bg');
