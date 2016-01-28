@@ -11,7 +11,7 @@
                             <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com">
                         </div>
                         <div class="form-group">
-                            <label for="key" class="sr-only">Password</label>
+                            <label for="pass" class="sr-only">Password</label>
                             <input type="password" name="password" id="pass" class="form-control" placeholder="Password">
                         </div>
                         <div class="checkbox">

@@ -12,11 +12,12 @@ class Storage
         $expire = null,
         $path = '/',
         $domain = '',
-        $secure = false
+        $secure = false,
+        $httpOnly = true
     ) {
         $expire = $expire == null ? time() + self::EXPIRATION_PERIOD : $expire;
 
-        setcookie($name, $value, $expire, $path, $domain, $secure, true);
+        setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
         $_COOKIE[$name] = $value;
     }
 

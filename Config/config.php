@@ -8,12 +8,13 @@ Config::set('sessionId', '_mymvc_sess_identi_');
 
 Config::set('languages', ['bg', 'en']);
 
-Config::set('defaultLanguage', 'bg');
-
 Config::set('routes', [
 	'default' => '',
 	'admin' => 'admin',
 ]);
+
+// Default settings
+Config::set('defaultLanguage', 'bg');
 
 Config::set('defaultRoute', 'default');
 

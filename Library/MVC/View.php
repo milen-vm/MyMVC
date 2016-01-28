@@ -25,6 +25,8 @@ class View
 
     private $viewPath;
 
+    private $content;
+
     /**
      *
      * @param \MyMVC\Application\ViewModels $model
@@ -35,7 +37,43 @@ class View
     {
         $this->setRouter();
         $this->setPath($path);
-        $this->render($model, $includeLayout);
+        $this->setContent($model);
+        $this->renderBufer($includeLayout);
+//         $this->render($model, $includeLayout);
+    }
+
+    private function setContent($model)
+    {
+        ob_start();
+        require_once $this->viewPath;
+        $this->content = ob_get_clean();
+    }
+
+    private function renderBufer($includeLayout)
+    {
+        if ($includeLayout) {
+            $this->renderWithLayout($this->content);
+        } else {
+            echo $this->content;
+        }
+    }
+
+    private function renderWithLayout($content)
+    {
+        $layout = ROOT_VIEWS_DIR
+        .self::LAYOUTS_DIR_NAME
+        .DIRECTORY_SEPARATOR
+        .self::$router->getRoute()
+        .self::VIEW_EXTENSION;
+
+        if (!is_readable($layout)) {
+        	$layout = str_replace(
+        	    self::$router->getRoute(),
+        	    Config::get('defaultRoute'),
+        	    $layout);
+        }
+
+        require_once $layout;
     }
 
     private function setRouter()
@@ -78,11 +116,18 @@ class View
     private function render($model, $includeLayout)
     {
         if ($includeLayout) {
-        $layoutDir = ROOT_VIEWS_DIR
+            $layoutDir = ROOT_VIEWS_DIR
         	   .self::LAYOUTS_DIR_NAME
         	   .DIRECTORY_SEPARATOR
         	   .self::$router->getRoute()
         	   .DIRECTORY_SEPARATOR;
+
+            if (!is_dir($layoutDir)) {
+                $layoutDir = str_replace(
+                    self::$router->getRoute(),
+                    Config::get('defaultRoute'),
+                    $layoutDir);
+            }
 
         	$headerPath = $layoutDir
         	   .self::LAYOUT_HEADER_FILE_NAME

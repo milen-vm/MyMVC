@@ -15,6 +15,10 @@ class UsersController extends BaseController
         parent::__construct();
     }
 
+    /**
+     *
+     *
+     */
     public function index()
     {
         return new View();
@@ -35,7 +39,7 @@ class UsersController extends BaseController
         	Session::set('id', $userData['id']);
         	Session::set('role', $userData['role']);
 
-        	$this->redirect(null, 'users');
+        	$this->redirect($userData['role'], 'users');
         }
 
         return new View();

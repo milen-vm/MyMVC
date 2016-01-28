@@ -143,4 +143,13 @@ class Statement
     {
         return $this->stmt->rowCount();
     }
+
+    /**
+     *
+     * @return array:
+     */
+    public function error()
+    {
+        return $this->stmt->errorInfo();
+    }
 }
