@@ -18,7 +18,7 @@ class View
     const VIEW_EXTENSION = '.php';
 
     /**
-     * @todo replace DefaultRouter with IRouter
+     *
      * @var \MyMVC\Library\Routing\DefaultRouter
      */
     private static $router;
@@ -61,10 +61,10 @@ class View
     private function renderWithLayout($content)
     {
         $layout = ROOT_VIEWS_DIR
-        .self::LAYOUTS_DIR_NAME
-        .DIRECTORY_SEPARATOR
-        .self::$router->getRoute()
-        .self::VIEW_EXTENSION;
+            .self::LAYOUTS_DIR_NAME
+            .DIRECTORY_SEPARATOR
+            .self::$router->getRoute()
+            .self::VIEW_EXTENSION;
 
         if (!is_readable($layout)) {
         	$layout = str_replace(
@@ -140,8 +140,8 @@ class View
 
         if ($includeLayout) {
             $footerPath = $layoutDir
-            .self::LAYOUT_FOOTER_FILE_NAME
-    	    .self::VIEW_EXTENSION;
+                .self::LAYOUT_FOOTER_FILE_NAME
+        	    .self::VIEW_EXTENSION;
 
             require $footerPath;
         }

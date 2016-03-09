@@ -48,8 +48,6 @@ class App
 
         $controllerMethod = self::$router->getAction();
 
-        $this->setDatabaseInstance();
-
         /**
          *
          *@var \MyMVC\Library\MVC\BaseController $controllerObject
@@ -76,30 +74,5 @@ class App
     public static function getRouter()
     {
         return self::$router;
-    }
-
-    private function setDatabaseInstance()
-    {
-        Database::setInstance(
-            Config::get('dbInstance'),
-            Config::get('dbDrive'),
-            Config::get('dbUser'),
-            Config::get('dbPass'),
-            Config::get('dbName'),
-            Config::get('dbHost')
-        );
-    }
-
-    /**
-     * @todo not finshed
-     * @param string $lang
-     */
-    private function storeLanguage($lang)
-    {
-        if (Storage::get('lang') == null) {
-        	Storage::set('lang', $lang);
-        } elseif (true) {
-
-        }
     }
 }

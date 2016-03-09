@@ -15,6 +15,15 @@ require_once '..' . DS . 'Config' . DS . 'config.php';
 
 \MyMVC\Library\Utility\Session::start();
 
+\MyMVC\Library\Core\Database::setInstance(
+    \MyMVC\Library\Config::get('dbInstance'),
+    \MyMVC\Library\Config::get('dbDrive'),
+    \MyMVC\Library\Config::get('dbUser'),
+    \MyMVC\Library\Config::get('dbPass'),
+    \MyMVC\Library\Config::get('dbName'),
+    \MyMVC\Library\Config::get('dbHost')
+);
+
 $router = new \MyMVC\Library\Routing\DefaultRouter();
 
 $app = \MyMVC\Library\App::getInstance();
